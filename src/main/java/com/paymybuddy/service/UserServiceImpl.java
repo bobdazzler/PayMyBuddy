@@ -21,7 +21,6 @@ import com.paymybuddy.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 @Autowired
 private UserRepository userRepository;
-private PasswordEncoder passwordEncoder; 
 public UserServiceImpl(UserRepository userRepository) {
 	super();
 	this.userRepository = userRepository;

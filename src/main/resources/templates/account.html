@@ -4,31 +4,61 @@
 <meta charset="ISO-8859-1">
 <title>PayMyBuddy</title>
 <link rel="stylesheet"
- href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
- integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
- crossorigin="anonymous">
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
 </head>
 </head>
 <body>
-<div class="container my-2">
-<a th:href = "@{/newAccountForm}"> Add Bank Details and Amount </a>
- <h1> Bank Details and Amount</h1> 
-  <table border="1" class = "table table-striped table-responsive-md">
-   <thead>
-    <tr>
-     <th>Bank Name</th>
-     <th>Account Number</th>
-     <th>Amount</th>
-    </tr>
-   </thead>
-   <tbody>
-    <tr th:each="account : ${listAccount}">
-     <td th:text="${account.bankName}"></td>
-     <td th:text="${account.bankAccountNumber}"></td>
-     <td th:text="${account.amount}"></td>
-    </tr>
-   </tbody>
-  </table>
-  </div>>
+	<div class="card-body">
+		<nav class="navbar navbar-expand-sm navbar-dark bg-secondary">
+			<a class="navbar-brand" href="">PayMyBuddy</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse"
+				data-target="#navbarSupportedContent"
+				aria-controls="navbarSupportedContent" aria-expanded="false"
+				aria-label="Toggle navigation">
+				<span class="navbar-toggler-icon"></span>
+			</button>
+
+			<div class="collapse navbar-collapse" id="navbarSupportedContent">
+				<ul class="navbar-nav mr-auto">
+					<li class="nav-item"><a class="nav-link active" href="/home.html" th:href="@{/home}">>Home</a>
+					</li>
+					<li class="nav-item"><a class="nav-link" href="/transfer.html"
+						th:href="@{/transfer}">Transfer</a></li>
+					<li class="nav-item"><a class="nav-link" href="/transfer.html"
+						th:href="@{/newAccountForm}">Account</a></li>
+					<li class="nav-item "><a class="nav-link"
+						href="templates/profile.html" th:href="@{/profile}">Profile</a></li>
+					<li class="nav-item "><a class="nav-link"
+						href="templates/contact.html" th:href="@{/contact}">Contact</a></li>
+					<li class="nav-item "><a class="nav-link" href="login.html"
+						th:href="@{/login}">Log off</a></li>
+				</ul>
+			</div>
+		</nav>
+		<div class="container my-2">
+			<a th:href="@{/newAccountForm}"> Add Bank Details and Amount </a>
+			<h1>Bank Details and Amount</h1>
+			<table border="1" class="table table-striped table-responsive-md">
+				<thead>
+					<tr>
+						<th>Bank Name</th>
+						<th>Account Number</th>
+						<th>Amount</th>
+						<th>Action</th>
+					</tr>
+				</thead>
+				<tbody>
+					<tr th:each="account : ${listAccount}">
+						<td th:text="${account.bankName}"></td>
+						<td th:text="${account.bankAccountNumber}"></td>
+						<td th:text="${account.amount}"></td>
+						 <td><a th:href="@{/AddMoneyByAccount/{id}(id=${account.id})}" class="btn btn-primary"> Change Account Details</a></td>
+					</tr>
+				</tbody>
+			</table>
+		</div>
+		</div>
 </body>
 </html>

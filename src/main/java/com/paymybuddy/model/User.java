@@ -43,10 +43,9 @@ public class User {
 	private String passWord;
 	@Column(name = "date_of_birth")
 	private String dateOfBirth;
-	@OneToMany(mappedBy = "user", cascade = CascadeType.PERSIST)
-	private List<Account> account;
-
-	
+	@OneToMany
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	    private List<Connection> connections;
 	@ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	@JoinTable(
 			name = "users_roles",
@@ -125,10 +124,11 @@ public class User {
 	public void setRoles(Collection<Role> roles) {
 		this.roles = roles;
 	}
-	public List<Account> getAccount() {
-		return account;
+	public List<Connection> getConnections() {
+		return connections;
 	}
-	public void setAccount(List<Account> account) {
-		this.account = account;
+	public void setConnections(List<Connection> connections) {
+		this.connections = connections;
 	}
+	
 }

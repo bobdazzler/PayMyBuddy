@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
@@ -30,5 +31,11 @@ public ModelAndView showNewAccountForm (Model model) {
 public ModelAndView saveAccount(@ModelAttribute("account")Account account) {
 	accountService.save(account);
 	return new ModelAndView("redirect:account");
+}
+@GetMapping("/AddMoneyByAccount/{id}")
+public ModelAndView showFormForUpdate(@PathVariable(value = "id") Integer id, Model model) {
+    Account account = accountService.getAccountById(id);
+    model.addAttribute("account", account);
+    return new ModelAndView("updateAccount");
 }
 }
