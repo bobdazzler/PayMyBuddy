@@ -4,32 +4,35 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.MapsId;
-import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.DynamicUpdate;
 import org.springframework.lang.NonNull;
+@DynamicUpdate
 @Entity
 @Table(name ="account")
 public class Account {
 	@Id
-	 @GeneratedValue(strategy = GenerationType.IDENTITY)
-	 private int id;
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name ="id")
+	private int id;
+	@NonNull
+	@Column(name = "user_id")
+	private int user_id;
 	@Column(name = "bank_name")
-	 @NonNull
-	 private String bankName;
-	 @Column(name = "bank_account_number")
-	 private int bankAccountNumber;
-	 @NonNull
-	 @Column(name = "amount")
-	 private int amount;
-	 public int getId() {
-			return id;
-		}
-		public void setId(int id) {
-			this.id = id;
-		}
+	@NonNull
+	private String bankName;
+	@Column(name = "bank_account_number")
+	private int bankAccountNumber;
+	@NonNull
+	@Column(name = "amount")
+	private double amount;
+	public int getUser_id() {
+		return user_id;
+	}
+	public void setUser_id(int user_id) {
+		this.user_id = user_id;
+	}
 	public String getBankName() {
 		return bankName;
 	}
@@ -42,10 +45,20 @@ public class Account {
 	public void setBankAccountNumber(int bankAccountNumber) {
 		this.bankAccountNumber = bankAccountNumber;
 	}
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
 	}
+	
+	public Account() {
+	}
+	public Account(int user_id, String bankName, int bankAccountNumber, double amount) {
+		this.user_id = user_id;
+		this.bankName = bankName;
+		this.bankAccountNumber = bankAccountNumber;
+		this.amount = amount;
+	}
+	
 }

@@ -1,11 +1,8 @@
 package com.paymybuddy.service;
-
-import java.util.List;
-
 import com.paymybuddy.model.Account;
+import com.paymybuddy.model.User;
 
 public interface AccountService {
-	List<Account> getAllEmployees();
 	public void save (Account account);
-	Account getAccountById(int id);
+	User getUserIdToCreateAccount(int id);
 }

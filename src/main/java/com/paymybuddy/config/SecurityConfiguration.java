@@ -6,18 +6,26 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
+import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.rememberme.PersistentTokenRepository;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
+import com.paymybuddy.service.CustomUserDetailsService;
 import com.paymybuddy.service.UserService;
+import com.paymybuddy.service.UserServiceImpl;
 
 @Configuration
 @EnableWebSecurity
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
-	@Autowired
-	private UserService userService;
+	@Bean
+    public UserDetailsService userDetailsService() {
+        return new CustomUserDetailsService();
+    }
+	
 	@Bean
 	public BCryptPasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
@@ -25,7 +33,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Bean
 	public DaoAuthenticationProvider authenticationProvider() {
 		DaoAuthenticationProvider auth = new DaoAuthenticationProvider();
-		auth.setUserDetailsService(userService);
+		auth.setUserDetailsService(userDetailsService());
 		auth.setPasswordEncoder(passwordEncoder());
 		return auth;
 	}
@@ -36,6 +44,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception{
 		http.authorizeRequests()
+		.antMatchers("/style.css").permitAll()
+		.antMatchers("/bootstrap.min.css").permitAll()
+		.antMatchers("/bootstrap.bundle.js").permitAll()
+		.antMatchers("/bootstrap.min.js").permitAll()
 		.antMatchers("/").permitAll()
 		.antMatchers("/login").permitAll()
 		.antMatchers("/signupSuccess").permitAll()
@@ -44,6 +56,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/contact").authenticated()
 		.antMatchers("/transfer").authenticated()
 		.antMatchers("/profile").authenticated()
+		.antMatchers("/connection").authenticated()
 		//.antMatchers("/connection").authenticated()
 		//.antMatchers("/saveAccount").authenticated()
 		.antMatchers("/updateAccount").authenticated()
@@ -59,6 +72,10 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.logoutRequestMatcher(new AntPathRequestMatcher("/logout"))
 		.logoutSuccessUrl("/login?logout")
 		.permitAll();
-
+	}
+	public void configure (WebSecurity web) {
+		web
+        .ignoring() 
+            .antMatchers("/resources/static/**");
 	}
 }

@@ -6,23 +6,18 @@
 </head>
 <body>
 	<div class="container">
-		<h1>Account Management</h1>
-		<hr>
-		<h2>Add Money to Your Account</h2>
+		<h1> Top up your PAYMYBUDDY balance   </h1>
 
-		<form action="#" th:action="@{/saveUpdate}" th:object="${account}"
+		<form action="#" th:action="@{/uploadMoneyToBalance}" th:object="${user}"
 			method="POST">
 			<div th:if="${message}" th:text="${message}"
 				th:class="${'alert ' + alertClass}"></div>
-			<input type="text" th:field="*{amount}"
-				class="form-control mb-4 col-4">
+				<label> Amount</label>
+			<input type="number" th:field="*{balance}"
+				class="form-control mb-4 col-4" required>
 
 			<button type="submit" class="btn btn-info col-2">Add Money</button>
 		</form>
-
-		<hr>
-
-		<a th:href="@{/account}"> Back to Account</a>
 	</div>
 </body>
 </html>

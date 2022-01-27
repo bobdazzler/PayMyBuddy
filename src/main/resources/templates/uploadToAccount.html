@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="https://www.thymeleaf.org">
+<head>
+<meta charset="ISO-8859-1">
+<title>PayMyBuddy</title>
+<link rel="stylesheet"
+	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+	integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+	crossorigin="anonymous">
+</head>
+<body>
+	<div class="card-body">
+		<div class="container">
+			<h1>Send Money TO your Account</h1>
+			<form th:action="@{/saveMoneyToAccount}" th:object="${account}"
+				method="post">
+				<div>
+					<label>Amount</label> <input type="text" th:field="*{amount}"
+						placeholder="Bank Name" class="form-control mb-4 col-4">
+				</div>
+			</form>
+		</div>
+	</div>
+
+</body>
+</html>

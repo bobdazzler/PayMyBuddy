@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="https://www.thymeleaf.org">
 <head>
-<meta charset="ISO-8859-1">
 <title>PayMyBuddy</title>
 <link rel="stylesheet"
 	href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
@@ -21,12 +20,10 @@
 
 			<div class="collapse navbar-collapse" id="navbarSupportedContent">
 				<ul class="navbar-nav mr-auto">
-					<li class="nav-item"><a class="nav-link active" href="/home.html" th:href="@{/home}">Home</a>
-					</li>
+					<li class="nav-item"><a class="nav-link active"
+						href="/home.html" th:href="@{/home}">Home</a></li>
 					<li class="nav-item"><a class="nav-link" href="/transfer.html"
 						th:href="@{/transfer}">Transfer</a></li>
-					<li class="nav-item"><a class="nav-link" href="/transfer.html"
-						th:href="@{/newAccountForm}">Account</a></li>
 					<li class="nav-item "><a class="nav-link"
 						href="templates/profile.html" th:href="@{/profile}">Profile</a></li>
 					<li class="nav-item "><a class="nav-link"
@@ -36,26 +33,53 @@
 				</ul>
 			</div>
 		</nav>
-		<div class="container my-2">
-			<form action="#" th:action="@{/makePayment}"
-				th:object="${connection}" method="POST">
-				<div th:if="${param.error}">
-					<div class="alert alert-danger">Invalid User email address provided.</div>
+		<div class="container mt-4">
+			<div class="row">
+				<div class="col-md-10">Send Money</div>
+				<div class="col-md-2">
+					<button class="btn btn-sm col-12 btn-primary">
+						<a class="text-light" href="templates/connection.html" th:href="@{/connection}">Add connection</a>
+					</button>
 				</div>
-				<!-- Add hidden form field to handle update -->
-            <input type="text" th:field="*{recieverEmail}" placeholder="Connection Email"class="form-control mb-4 col-4">  
-
-            <input type="text" th:field="*{amount}" placeholder="Amount" class="form-control mb-4 col-4">
-
-            <input type="text" th:field="*{description}" placeholder="Description"class="form-control mb-4 col-4">
-
-            <button type="submit" class="btn btn-info col-2"> Pay</button>
-			</form>
 			</div>
-			<div class="form-group">
-				<span>Click to See Transaction Details <a href="templates/transactionDetails.html" th:href="@{/transactionDetails}"> Transactions</a></span>
+
+			<div class="card mt-1">
+				<div class="card-body bg-light">
+
+					<form method="post" th:action="@{/makePayment}"
+						th:object="${transfer}">
+						<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}">
+		</div>
+						<div class="row">
+							<div class="col-md-4 col-lg-6">
+								<label for="exampleInputEmail1">Connections</label> <select
+									class="form-select form-select"
+									aria-label=".form-select-sm example"
+									th:field="*{recieverEmail}" name="connections" id="connections">
+									<option value="0">Select a connection</option>
+									<option th:each="connection :${connections}"
+										th:value="${connection.recieverEmail}" th:text="${connection.recieverEmail}">
+								</select>
+							</div>
+							<div class="col-md-4 col-lg-4">
+								<label for="exampleInputEmail1">Amount</label> <input
+									th:field="*{amount}" type="number" class="form-control"
+									placeholder="0" required>
+							</div>
+							<div class="col-md-2 col-lg-2">
+								<button class="btn btn col-6 btn-success form-control">Pay</button>
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-md-4 col-lg-4">
+								<label for="exampleInputEmail1">Description</label> <input
+									th:field="*{description}" type="text" class="form-control">
+							</div>
+						</div>
+					</form>
+
+				</div>
 			</div>
-			
-</div>
+		</div>
 </body>
 </html>

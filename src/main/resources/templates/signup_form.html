@@ -17,10 +17,6 @@
 	crossorigin="anonymous"></script>
 <link rel="stylesheet"
 	href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-<script type="text/javascript">
-//Data Picker Initialization
-$('.datepicker').datepicker();
-</script>
 <title>Pay My Buddy</title>
 </head>
 <body>
@@ -29,23 +25,11 @@ $('.datepicker').datepicker();
 	</div>
 	<div class="card-body">
 		<form method="post" th:action="@{/save}" th:object="${user}">
-		<div th:if="${param.success}">
-				<div class="alert alert-info">You have registered successfully
-					sending money is now easier</div>
-			</div>
+		<div th:if="${message}" th:text="${message}" th:class="${'alert ' + alertClass}">
+		</div>
 			<div class="form-group">
-				<label for="exampleInputEmail1">First Name</label> <input
-					type="text" th:field="*{firstName}" class="form-control"
-					id="exampleInputEmail1" aria-describedby="emailHelp" required>
-			</div>
-			<div class="form-group">
-				<label for="exampleInputEmail1">Middle Name</label> <input
-					type="text" th:field="*{middleName}" class="form-control"
-					id="exampleInputEmail1" aria-describedby="emailHelp">
-			</div>
-			<div class="form-group">
-				<label for="exampleInputEmail1">Last Name</label> <input type="text"
-					th:field="*{lastName}" class="form-control" id="exampleInputEmail1"
+				<label for="exampleInputEmail1">User Name</label> <input type="text"
+					th:field="*{userName}" class="form-control" id="exampleInputEmail1"
 					aria-describedby="emailHelp" required>
 			</div>
 			<div class="form-group">
@@ -61,21 +45,7 @@ $('.datepicker').datepicker();
 			<div class="form-group">
 				<label for="exampleInputPassword1">Password</label> <input
 					type="password" th:field="*{passWord}" class="form-control"
-					id="exampleInputPassword1" required>
-			</div>
-			<div class="form-group">
-				<label for="exampleInputEmail1">Gender</label> <input type="text"
-					th:field="*{gender}" class="form-control" id="exampleInputEmail1"
-					aria-describedby="emailHelp" required>
-			</div>
-			<div class="form-group">
-				<label for="example">Date of Birth</label>
-				<div id="date-picker-example"
-					class="md-form md-outline input-with-post-icon datepicker">
-					<input placeholder="Select date" type="text"
-						th:field="*{dateOfBirth}" id="example" class="form-control"
-						required>
-				</div>
+					id="exampleInputPassword1" required  minlength="6" maxlength="24"/>
 			</div>
 			<div class="form-group">
 				<button type="submit" class="btn btn-success">Register</button>

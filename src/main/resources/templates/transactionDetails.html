@@ -27,9 +27,6 @@
                   <li class = "nav-item">
                      <a class = "nav-link" href = "/transfer.html" th:href ="@{/transfer}">Transfer</a>
                   </li>
-                  <li class = "nav-item">
-                     <a class = "nav-link" href = "/transfer.html" th:href ="@{/account}">Account</a>
-                  </li>
                   <li class = "nav-item ">
                      <a class = "nav-link" href = "templates/profile.html" th:href ="@{/profile}">Profile</a>
                   </li>
@@ -59,7 +56,7 @@
 					<tr th:each="Connection : ${listConnection}">
 						<td th:text="${Connection.recieverEmail}"></td>
 						<td th:text="${Connection.Description}"></td>
-						<td th:text="${account.amount}"></td>
+						<td th:text="${Transfer.amount}"></td>
 					</tr>
 				</tbody>
 			</table>
