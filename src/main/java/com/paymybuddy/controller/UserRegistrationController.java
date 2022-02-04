@@ -24,7 +24,6 @@ public class UserRegistrationController {
 	@GetMapping("/registration") 
 	public ModelAndView register(Model model) {
 		model.addAttribute("user", new User());
-
 		return new ModelAndView  ("signup_form"); 
 	} 
 	@PostMapping("/save")
@@ -43,7 +42,6 @@ public class UserRegistrationController {
 		userServiceImpl.save(registrationDto);
 		redirectAttributes.addFlashAttribute("message", "you have successfully registered please click login");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
-
 		return new ModelAndView("redirect:/registration");
 
 	}

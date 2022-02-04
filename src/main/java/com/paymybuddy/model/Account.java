@@ -17,8 +17,8 @@ public class Account {
 	@Column(name ="id")
 	private int id;
 	@NonNull
-	@Column(name = "user_id")
-	private int user_id;
+	@Column(name = "userId")
+	private int userId;
 	@Column(name = "bank_name")
 	@NonNull
 	private String bankName;
@@ -27,11 +27,18 @@ public class Account {
 	@NonNull
 	@Column(name = "amount")
 	private double amount;
-	public int getUser_id() {
-		return user_id;
+	
+	public int getId() {
+		return id;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setId(int id) {
+		this.id = id;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
 	public String getBankName() {
 		return bankName;
@@ -51,11 +58,10 @@ public class Account {
 	public void setAmount(double amount) {
 		this.amount = amount;
 	}
-	
 	public Account() {
 	}
-	public Account(int user_id, String bankName, int bankAccountNumber, double amount) {
-		this.user_id = user_id;
+	public Account(int userId, String bankName, int bankAccountNumber, double amount) {
+		this.userId = userId;
 		this.bankName = bankName;
 		this.bankAccountNumber = bankAccountNumber;
 		this.amount = amount;

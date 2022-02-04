@@ -14,22 +14,22 @@ public class Connection {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	@Column(name = "user_id")
-	private int user_id;
+	private int userId;
 	@Column(name = "connected_user_id")
-	private int connected_user_id;
+	private int connectedUserId;
 	@Column(name = "reciever_email")
 	private String recieverEmail;
-	public int getUser_id() {
-		return user_id;
+	public int getUserId() {
+		return userId;
 	}
-	public void setUser_id(int user_id) {
-		this.user_id = user_id;
+	public void setUserId(int userId) {
+		this.userId = userId;
 	}
-	public int getConnected_user_id() {
-		return connected_user_id;
+	public int getConnectedUserId() {
+		return connectedUserId;
 	}
-	public void setConnected_user_id(int connected_user_id) {
-		this.connected_user_id = connected_user_id;
+	public void setConnectedUserId(int connectedUserId) {
+		this.connectedUserId = connectedUserId;
 	}
 	public String getRecieverEmail() {
 		return recieverEmail;

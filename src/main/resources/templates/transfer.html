@@ -80,6 +80,27 @@
 
 				</div>
 			</div>
+			 <h6 class="text-left mt-5">
+            My Transactions
+        </h6>
+        <table class="table table-striped">
+            <thead class="bg-success text-white">
+                <tr>
+                    <th scope="col">Connection</th>
+                    <th scope="col">Description</th>
+                    <th scope="col">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+               <tr th:each="transaction : ${transactions}">
+						<td th:text="${transaction.recieverEmail}"></td>
+						<td th:text="${transaction.description}"></td>
+						<td th:text="${transaction.amount}"></td>
+					</tr>
+               
+            </tbody>
+        </table>
+		</div>
 		</div>
 </body>
 </html>

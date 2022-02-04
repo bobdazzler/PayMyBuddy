@@ -14,40 +14,34 @@ public class Transfer {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private int id;
 	@Column(name ="amount")
-	private int amount;
+	private double amount;
 	@Column(name = "reciever_email")
 	private String recieverEmail;
 	@Column(name = "charges")
-	private int charges;
+	private double charges;
 	@Column(name = "user_id")
 	private int userId;
 	@Column(name ="reciever_id")
 	private int recieverId;
 	@Column(name="description")
 	private String Description;
-	public int getAmount() {
+	public double getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(double amount) {
 		this.amount = amount;
-	}	
+	}
 	public String getRecieverEmail() {
 		return recieverEmail;
 	}
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;
 	}
-	public int getCharges() {
+	public double getCharges() {
 		return charges;
 	}
-	public void setCharges(int charges) {
+	public void setCharges(double charges) {
 		this.charges = charges;
-	}
-	public String getDescription() {
-		return Description;
-	}
-	public void setDescription(String description) {
-		Description = description;
 	}
 	public int getUserId() {
 		return userId;
@@ -60,5 +54,12 @@ public class Transfer {
 	}
 	public void setRecieverId(int recieverId) {
 		this.recieverId = recieverId;
-	}	
+	}
+	public String getDescription() {
+		return Description;
+	}
+	public void setDescription(String description) {
+		Description = description;
+	}
+	
 }

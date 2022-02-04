@@ -14,12 +14,15 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.paymybuddy.model.Account;
 import com.paymybuddy.model.User;
+import com.paymybuddy.repository.AccountRepository;
 import com.paymybuddy.repository.UserRepository;
 import com.paymybuddy.service.AccountServiceImp;
 import com.paymybuddy.service.UserServiceImpl;
 
 @RestController
 public class ProfileController {
+	@Autowired
+	AccountRepository accountRepository;
 	@Autowired
 	private AccountServiceImp accountServiceImp;
 	@Autowired
@@ -29,33 +32,31 @@ public class ProfileController {
 	@GetMapping("/profile")
 	public ModelAndView showingProfileOfUser(Model model, HttpServletRequest request ) {
 		int userId = (int) request.getSession().getAttribute("userId");
-		for(User user : userRepository.findAll()) {
-			if(user.getId()==userId) {
-
-				model.addAttribute("userName",user.getUserName() );
-				model.addAttribute("balance",user.getBalance());
-			}
-		}
+		User user = userRepository.getUserById(userId);
+		model.addAttribute("userName",user.getUserName() );
+		model.addAttribute("balance",user.getBalance());
 		return new ModelAndView("/profile");
 	}
 	@Transactional
 	@PostMapping("/saveMoneyToAccount")
 	public ModelAndView sendingMoneyToAccount(@ModelAttribute("account") Account account,HttpServletRequest request,BindingResult result,
 			RedirectAttributes redirectAttributes) {
-		Account accountOfUser = new Account();
 		int userId = (int) request.getSession().getAttribute("userId");
-		for(User user : userRepository.findAll()) {
-			if(user.getId()==userId && accountOfUser.getUser_id() == userId) {
-				double userBalance = user.getBalance()-account.getAmount();
-				user.setBalance(userBalance);
-				userServiceImpl.save(user);
-			double accountTotalAmout =	accountOfUser.getAmount()+account.getAmount();
-				accountOfUser.setAmount(accountTotalAmout);
-				accountServiceImp.save(accountOfUser);
-			}
-		}
+		User user = userRepository.getUserById(userId);
+		Account accountOfUser = accountRepository.getAccountByUserID(userId);
+		if(accountOfUser!=null) {
+		double userBalance = user.getBalance()-account.getAmount();
+		user.setBalance(userBalance);
+		userServiceImpl.save(user);
+		double accountTotalAmout =	accountOfUser.getAmount()+account.getAmount();
+		accountOfUser.setAmount(accountTotalAmout);
+		accountServiceImp.save(accountOfUser);
 		redirectAttributes.addFlashAttribute("message", "you have successfully sent money to your bank Account");
 		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
+		}else {
+		redirectAttributes.addFlashAttribute("message", "please go through the process of uploading money to balance to create an account ");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+		}
 		return new ModelAndView("redirect:/profile");
 	}
 	@GetMapping("/sendMoneyToAccount")

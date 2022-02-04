@@ -24,22 +24,21 @@ public class ConnectionController {
 		return new ModelAndView("connection");
 	}
 	@PostMapping("/saveConnection")
-	public ModelAndView saveConnection(@ModelAttribute("connection") Connection connection,HttpServletRequest request,BindingResult result,
-			RedirectAttributes redirectAttributes, Model model){
-		int userId = (int) request.getSession().getAttribute("userId");
-		
-	User user =	connectionServiceImp.checkingIfUserExist(connection.getRecieverEmail());
-	if(user!=null) {
-	connection.setConnected_user_id(user.getId());
-	connection.setUser_id(userId);
-	connection.setRecieverEmail(user.getEmail());
-		connectionRepository.save(connection);
-		return new ModelAndView("redirect:transfer");
+	public ModelAndView saveConnection(@ModelAttribute("connection") Connection connection,HttpServletRequest request,
+			BindingResult result,RedirectAttributes redirectAttributes, Model model){
+		int userId = (int) request.getSession().getAttribute("userId");	
+		User user =	connectionServiceImp.checkingIfUserExist(connection.getRecieverEmail());
+		if(user!=null) {
+			connection.setConnectedUserId(user.getId());
+			connection.setUserId(userId);
+			connection.setRecieverEmail(user.getEmail());
+			connectionRepository.save(connection);
+			return new ModelAndView("redirect:transfer");
+		}
+		result.rejectValue("recieverEmail", "error.recieverEmail", "You cannot use this username!");
+		redirectAttributes.addFlashAttribute("message", "user does not exist");
+		redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
+		return new ModelAndView("redirect:connection");
 	}
-	result.rejectValue("recieverEmail", "error.recieverEmail", "You cannot use this username!");
-	  redirectAttributes.addFlashAttribute("message", "user does not exist");
-    redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-    return new ModelAndView("redirect:connection");
-	}
-	
+
 }

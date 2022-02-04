@@ -19,18 +19,12 @@ public class MainController {
 private	UserServiceImpl userService;
 @GetMapping("/home")
 public ModelAndView home(HttpServletRequest request) {
-	
     ModelAndView model = new ModelAndView();
-    model.addObject("title", "PayMyBuddy");
-    model.addObject("message", "This is default page!");
     model.setViewName("home");
     Authentication auth = SecurityContextHolder.getContext().getAuthentication();
     UserDetails userDetail = (UserDetails) auth.getPrincipal();
-
     User u = userService.getExistingUser(userDetail.getUsername());
     request.getSession().setAttribute("userId", u.getId());
-
     return model;
-
 }
 }

@@ -37,9 +37,11 @@ public class User {
 	@OneToMany
 	@JoinColumn(name = "user_id", referencedColumnName = "id")
 	private List<Connection> connections;
+	@OneToMany
+	@JoinColumn(name = "user_id", referencedColumnName = "id")
+	private List<Transaction> transaction;
 	public User() {	
 	}
-
 	public void setId(int id) {
 		this.id = id;
 	}
