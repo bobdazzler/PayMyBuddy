@@ -16,17 +16,17 @@
 				method="post">
 				<div>
 					<label>BankName</label> <input type="text" th:field="*{bankName}"
-						placeholder="Bank Name" class="form-control mb-4 col-4">
+						placeholder="Bank Name" class="form-control mb-4 col-4" required>
 				</div>
 				<div>
 					<label>BankAccountNumber</label> <input type="text"
 						th:field="*{bankAccountNumber}" placeholder="Account Number"
-						class="form-control mb-4 col-4">
+						class="form-control mb-4 col-4" required>
 				</div>
 				<div>
 					<label>Amount</label><input type="text" th:field="*{amount}"
 						placeholder="Enter Amount to be loaded"
-						class="form-control mb-4 col-4">
+						class="form-control mb-4 col-4" required>
 				</div>
 				<button type="submit" class="btn btn-info col-2">Save
 					Account</button>

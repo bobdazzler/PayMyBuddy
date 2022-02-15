@@ -1,5 +1,7 @@
 package com.paymybuddy.dto;
 
+import java.math.BigDecimal;
+
 import org.hibernate.annotations.DynamicUpdate;
 
 @DynamicUpdate
@@ -8,9 +10,7 @@ public class UserRegistrationDto {
 	 private String email;
 	 private String mobileNumber;
 	 private String passWord;
-	private double balance;
-	public UserRegistrationDto() {
-	}
+	private BigDecimal amount;
 	public String getUserName() {
 		return userName;
 	}
@@ -35,11 +35,19 @@ public class UserRegistrationDto {
 	public void setPassWord(String passWord) {
 		this.passWord = passWord;
 	}
-	public double getBalance() {
-		return balance;
+	public BigDecimal getAmount() {
+		return amount;
 	}
-	public void setBalance(double balance) {
-		this.balance = balance;
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
-	 
+	public UserRegistrationDto(String userName, String email, String mobileNumber, String passWord) {
+		this.userName = userName;
+		this.email = email;
+		this.mobileNumber = mobileNumber;
+		this.passWord = passWord;
+	}
+	public UserRegistrationDto() {
+	}
+	
 }

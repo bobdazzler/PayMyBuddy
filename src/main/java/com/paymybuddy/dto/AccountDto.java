@@ -1,9 +1,11 @@
 package com.paymybuddy.dto;
 
+import java.math.BigDecimal;
+
 public class AccountDto {
 	private int userId;
 	private String bankName;
-	private int amount;
+	private BigDecimal amount;
 	private int bankAccountNumber;
 	public int getUserId() {
 		return userId;
@@ -17,10 +19,10 @@ public class AccountDto {
 	public void setBankName(String bankName) {
 		this.bankName = bankName;
 	}
-	public int getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(int amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 	public int getBankAccountNumber() {
@@ -29,4 +31,5 @@ public class AccountDto {
 	public void setBankAccountNumber(int bankAccountNumber) {
 		this.bankAccountNumber = bankAccountNumber;
 	}
+	
 }

@@ -7,6 +7,5 @@ import com.paymybuddy.model.User;
 public interface UserRepository extends JpaRepository<User, Integer> {
 	User findByEmail(String email);
 	 @Query("SELECT user FROM User user WHERE user.id = ?1")
-		User getUserById(int id);
-	
+		User getUserById(int id);	
 }

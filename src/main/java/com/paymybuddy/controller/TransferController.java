@@ -1,5 +1,5 @@
 package com.paymybuddy.controller;
-
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,45 +24,49 @@ import com.paymybuddy.model.Transaction;
 import com.paymybuddy.model.Transfer;
 import com.paymybuddy.model.User;
 import com.paymybuddy.repository.ConnectionRepository;
-import com.paymybuddy.repository.TransactionRepository;
-import com.paymybuddy.repository.TransferRepository;
-import com.paymybuddy.repository.UserRepository;
 import com.paymybuddy.service.ConnectionServiceImpl;
+import com.paymybuddy.service.TransactionServiceImpl;
+import com.paymybuddy.service.TransferServiceImpl;
+import com.paymybuddy.service.UserServiceImpl;
 @RestController
 public class TransferController {
 	Logger logger =  LoggerFactory.getLogger(TransferController.class);
 	@Autowired
-	TransactionRepository transactionRepository;
+	TransactionServiceImpl transactionServiceImpl;
 	@Autowired
-	TransferRepository transferRepository;
+	ConnectionRepository connectionRepository;
 	@Autowired
-	private ConnectionRepository connectionRepository;
-	@Autowired
-	UserRepository userRepository;
+	UserServiceImpl userServiceImpl;
 	@Autowired
 	ConnectionServiceImpl connectionServiceImpl;
-	User user = new User(); 
+	@Autowired
+	TransferServiceImpl transferServiceImpl;
+
 	@GetMapping("/transfer")
-	public ModelAndView showTransfer(@ModelAttribute("transfer") Transfer transfer, @ModelAttribute("connection") Connection connection,
-			Model model, HttpServletRequest request) {
-		int userId = (int) request.getSession().getAttribute("userId");	
-		List<Transaction> transactionsOfUser = new ArrayList<>();
-		List<Transaction> transactions = transactionRepository.findAll();
-		for(Transaction transactionOfUser :transactions) {
-			if(transactionOfUser.getUserId()==userId) {
-				transactionsOfUser.add(transactionOfUser);
+	public ModelAndView showTransfer(@ModelAttribute("transfer") Transfer transfer,Model model,
+			HttpServletRequest request) {
+		if(request.getSession().getAttribute("userId")!= null) {
+			int userId = (int) request.getSession().getAttribute("userId");	
+			List<Transaction> transactionsOfUser = new ArrayList<>();
+			List<Transaction> transactions = transactionServiceImpl.findTransaction();
+			for(Transaction transactionOfUser :transactions) {
+				if(transactionOfUser.getUserId()==userId) {
+					transactionsOfUser.add(transactionOfUser);
+				}
 			}
-		}
-		model.addAttribute("transactions", transactionsOfUser);
-		List<Connection> connectionsEmailOfUsersAdded = new ArrayList<>();
-		List<Connection>connections = connectionRepository.findAll();
-		for(Connection connectedUser : connections) {
-			if(connectedUser.getUserId()==userId) {
-				connectionsEmailOfUsersAdded.add(connectedUser);
+			model.addAttribute("transactions", transactionsOfUser);
+			List<Connection> connectionsEmailOfUsersAdded = new ArrayList<>();
+			List<Connection>connections = connectionServiceImpl.listOfConnectedEmail();
+			for(Connection connectedUser : connections) {
+				if(connectedUser.getUserId()==userId) {
+					connectionsEmailOfUsersAdded.add(connectedUser);
+				}
 			}
+			model.addAttribute("connections", connectionsEmailOfUsersAdded);
+			return new ModelAndView("transfer");
+		}else {
+			return new ModelAndView("home");
 		}
-		model.addAttribute("connections", connectionsEmailOfUsersAdded);
-		return new ModelAndView("transfer");
 	}
 	@Transactional
 	@PostMapping("/makePayment")
@@ -71,41 +75,40 @@ public class TransferController {
 		Transfer transfer = new Transfer();
 		Transaction transaction = new  Transaction();
 		int userId = (int) request.getSession().getAttribute("userId");	
-		User loggedInUser = userRepository.getUserById(userId);
-
+		User loggedInUser = userServiceImpl.getUserById(userId);
 		User recieverDetails = connectionServiceImpl.checkingIfUserExist(transferDto.getRecieverEmail());
 		if(recieverDetails == null) {
 			redirectAttributes.addFlashAttribute("message", "please add a connection");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			return new ModelAndView("redirect:/transfer");	
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");	
 		}
-		if(loggedInUser.getBalance() <= 0.0 ) {
+		if(loggedInUser.getBalance().compareTo(transferDto.getAmount()) ==-1 ) {
 			redirectAttributes.addFlashAttribute("message", "Please Add Money to your PayMyBuddy Balance");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			return new ModelAndView("redirect:/transfer");	
+			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");	
+		}else {
+			BigDecimal chargePercentage = new BigDecimal(0.005);
+			BigDecimal charges = transferDto.getAmount().multiply(chargePercentage);
+			BigDecimal senderTotal =(loggedInUser.getBalance().subtract(transferDto.getAmount())).subtract(charges);
+			loggedInUser.setBalance(senderTotal);
+			transfer.setAmount(transferDto.getAmount());
+			transfer.setCharges(charges);
+			transfer.setRecieverId(recieverDetails.getId());
+			transfer.setUserId(userId);
+			transfer.setRecieverEmail(recieverDetails.getEmail());
+			transferServiceImpl.save(transfer);
+			userServiceImpl.saveUpdatedUser(loggedInUser);
+			BigDecimal recieverTotal = transferDto.getAmount().add(recieverDetails.getBalance());
+			recieverDetails.setBalance(recieverTotal);
+			userServiceImpl.saveUpdatedUser(recieverDetails);
+			transaction.setAmount(transferDto.getAmount());
+			transaction.setCharges(charges);
+			transaction.setDescription(transferDto.getDescription());
+			transaction.setRecieverEmail(recieverDetails.getEmail());
+			transaction.setUserId(userId);
+			transaction.setRecieverId(recieverDetails.getId());
+			transactionServiceImpl.saveUserTransaction(transaction);
+			redirectAttributes.addFlashAttribute("message", "Transfer successful");
+			redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		}
-		double charges = transferDto.getAmount()*0.005;
-		double senderTotal =(loggedInUser.getBalance()-transferDto.getAmount())-charges;
-		loggedInUser.setBalance(senderTotal);
-		transfer.setAmount(transferDto.getAmount());
-		transfer.setCharges(charges);
-		transfer.setRecieverId(recieverDetails.getId());
-		transfer.setUserId(userId);
-		transfer.setRecieverEmail(recieverDetails.getEmail());
-		transferRepository.save(transfer);
-		userRepository.save(loggedInUser);
-		double recieverTotal = transferDto.getAmount()+ recieverDetails.getBalance();
-		recieverDetails.setBalance(recieverTotal);
-		userRepository.save(recieverDetails);
-		transaction.setAmount(transferDto.getAmount());
-		transaction.setCharges(charges);
-		transaction.setDescription(transferDto.getDescription());
-		transaction.setRecieverEmail(recieverDetails.getEmail());
-		transaction.setUserId(userId);
-		transaction.setRecieverId(recieverDetails.getId());
-		transactionRepository.save(transaction);
-		redirectAttributes.addFlashAttribute("message", "Transfer successful");
-		redirectAttributes.addFlashAttribute("alertClass", "alert-success");
 		return new ModelAndView("redirect:/transfer");
 	}
 }

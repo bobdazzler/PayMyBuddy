@@ -10,9 +10,8 @@ public class AccountServiceImp implements AccountService {
 	private AccountRepository accountRepository;
 	@Transactional
 	@Override
-	public void save(Account account) {
-		this.accountRepository.save(account);
-
+	public Account save(Account account) {
+		return accountRepository.save(account);
 	}
 	@Override
 	public Account getAccountByUserId(int userId) {

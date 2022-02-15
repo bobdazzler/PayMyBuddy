@@ -30,7 +30,7 @@
                      <a class = "nav-link active" href = "/home">Home</a>
                   </li>
                   <li class = "nav-item">
-                     <a class = "nav-link" href = "/transfer.html" th:href ="@{/transfer}">Transfer</a>
+                     <a class = "nav-link" href = "templates/transfer.html" th:href ="@{/transfer}">Transfer</a>
                   </li>
                   <li class = "nav-item ">
                      <a class = "nav-link" href = "templates/profile.html" th:href ="@{/profile}">Profile</a>
@@ -45,7 +45,7 @@
                
             </div>
       	</nav> 
-		<h2  class = "mt-4">Welcome to the PayMyBuddy application!</h2> <br>
+		<h2  class = "mt-4">Welcome to the PayMyBuddy application!  <span  th:text="${loggedInUser.userName}"></span> </h2><br>
 		<h5 >Made for friends who want to transfer money to friends easily.</h5>
 		
 	</div>

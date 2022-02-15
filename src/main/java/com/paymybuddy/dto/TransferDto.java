@@ -1,12 +1,15 @@
 package com.paymybuddy.dto;
+
+import java.math.BigDecimal;
+
 public class TransferDto {
-	private double amount;
+	private BigDecimal amount;
 	private String recieverEmail;
 	private String Description;
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 	public String getRecieverEmail() {
@@ -21,5 +24,4 @@ public class TransferDto {
 	public void setDescription(String description) {
 		Description = description;
 	}
-	
 }

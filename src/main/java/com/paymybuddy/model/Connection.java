@@ -37,4 +37,13 @@ public class Connection {
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;
 	}
+	
+	public Connection() {
+	}
+	public Connection(int userId, int connectedUserId, String recieverEmail) {
+		this.userId = userId;
+		this.connectedUserId = connectedUserId;
+		this.recieverEmail = recieverEmail;
+	}
+	
 }

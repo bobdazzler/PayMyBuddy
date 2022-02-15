@@ -1,4 +1,6 @@
 package com.paymybuddy.model;
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -26,14 +28,7 @@ public class Account {
 	private int bankAccountNumber;
 	@NonNull
 	@Column(name = "amount")
-	private double amount;
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
+	private BigDecimal amount;
 	public int getUserId() {
 		return userId;
 	}
@@ -52,19 +47,31 @@ public class Account {
 	public void setBankAccountNumber(int bankAccountNumber) {
 		this.bankAccountNumber = bankAccountNumber;
 	}
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public Account() {
-	}
-	public Account(int userId, String bankName, int bankAccountNumber, double amount) {
+	public Account(int id, int userId, String bankName, int bankAccountNumber, BigDecimal amount) {
+		this.id = id;
 		this.userId = userId;
 		this.bankName = bankName;
 		this.bankAccountNumber = bankAccountNumber;
 		this.amount = amount;
+	}
+	public Account(int userId, String bankName, int bankAccountNumber, BigDecimal amount) {
+		this.userId = userId;
+		this.bankName = bankName;
+		this.bankAccountNumber = bankAccountNumber;
+		this.amount = amount;
+	}
+	public Account(String bankName, int bankAccountNumber, BigDecimal amount) {
+		this.bankName = bankName;
+		this.bankAccountNumber = bankAccountNumber;
+		this.amount = amount;
+	}
+	public Account() {
 	}
 	
 }

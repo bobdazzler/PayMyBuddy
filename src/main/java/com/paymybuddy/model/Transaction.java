@@ -1,5 +1,7 @@
 package com.paymybuddy.model;
 
+import java.math.BigDecimal;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -14,21 +16,21 @@ public class Transaction {
 	 @GeneratedValue(strategy = GenerationType.IDENTITY)
 	 private int id;
 	@Column(name ="amount")
-	private double amount;
+	private BigDecimal amount;
 	@Column(name = "reciever_email")
 	private String recieverEmail;
 	@Column(name = "charges")
-	private double charges;
+	private BigDecimal charges;
 	@Column(name = "user_id")
 	private int userId;
 	@Column(name ="reciever_id")
 	private int recieverId;
 	@Column(name="description")
 	private String Description;
-	public double getAmount() {
+	public BigDecimal getAmount() {
 		return amount;
 	}
-	public void setAmount(double amount) {
+	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
 	public String getRecieverEmail() {
@@ -37,10 +39,10 @@ public class Transaction {
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;
 	}
-	public double getCharges() {
+	public BigDecimal getCharges() {
 		return charges;
 	}
-	public void setCharges(double charges) {
+	public void setCharges(BigDecimal charges) {
 		this.charges = charges;
 	}
 	public int getUserId() {
@@ -60,6 +62,14 @@ public class Transaction {
 	}
 	public void setDescription(String description) {
 		Description = description;
+	}
+	public Transaction(BigDecimal amount, String recieverEmail, int userId, String description) {
+		this.amount = amount;
+		this.recieverEmail = recieverEmail;
+		this.userId = userId;
+		Description = description;
+	}
+	public Transaction() {
 	}
 	
 }

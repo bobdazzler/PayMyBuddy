@@ -1,4 +1,6 @@
 package com.paymybuddy.controller;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -14,26 +16,19 @@ import com.paymybuddy.service.UserServiceImpl;
 
 @RestController
 public class UserRegistrationController {
+	Logger logger =  LoggerFactory.getLogger(UserRegistrationController.class);
 	@Autowired
 	private UserServiceImpl userServiceImpl;
-	@Autowired
-	public UserRegistrationController(UserServiceImpl userService) {
-		super();
-		this.userServiceImpl = userService;
-	}
+	
 	@GetMapping("/registration") 
-	public ModelAndView register(Model model) {
+	public ModelAndView showRegisterationPage(Model model) {
 		model.addAttribute("user", new User());
 		return new ModelAndView  ("signup_form"); 
 	} 
 	@PostMapping("/save")
 	public ModelAndView registerUserAccount( @ModelAttribute("user") UserRegistrationDto registrationDto, BindingResult result,
 			RedirectAttributes redirectAttributes) {
-		if (result.hasErrors()) {
-			redirectAttributes.addFlashAttribute("message", "registration failed please fill in the right details");
-			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
-			return new ModelAndView( "redirect:/registration");
-		}else if( userServiceImpl.getExistingUser(registrationDto.getEmail()) != null){
+		if( userServiceImpl.getExistingUser(registrationDto.getEmail()) != null){
 			redirectAttributes.addFlashAttribute("message", "email used by another user");
 			redirectAttributes.addFlashAttribute("alertClass", "alert-danger");
 			result.rejectValue("email", "error.email", "You cannot use this username!");

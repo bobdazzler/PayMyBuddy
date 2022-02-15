@@ -1,4 +1,6 @@
 package com.paymybuddy.service;
+import java.math.BigDecimal;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -11,17 +13,13 @@ import com.paymybuddy.repository.UserRepository;
 public class UserServiceImpl implements UserService {
 	@Autowired
 	private UserRepository userRepository;
-	@Autowired
-	public UserServiceImpl(UserRepository userRepository) {
-		super();
-		this.userRepository = userRepository;
-	}
 	@Transactional 
 	@Override
 	public User save(UserRegistrationDto registrationDto ) {
 		BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
 		User user = new User(registrationDto.getUserName(),registrationDto.getEmail() ,registrationDto.getMobileNumber(),
-				encoder.encode(registrationDto.getPassWord()),registrationDto.getBalance());
+				encoder.encode(registrationDto.getPassWord()));
+		user.setBalance(BigDecimal.ZERO);
 		return userRepository.save(user);
 	}
 	@Transactional
@@ -29,9 +27,12 @@ public class UserServiceImpl implements UserService {
 		return userRepository.findByEmail(email);
 	}
 	@Transactional
-	public User save(User user) {
-		return userRepository.save(user);
-		
+	public User saveUpdatedUser(User user) {
+		return userRepository.save(user);	
+	}
+	@Transactional 
+	public User getUserById(int userId) {
+		return userRepository.getUserById(userId);
 	}
 	
 

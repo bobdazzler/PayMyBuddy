@@ -5,6 +5,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.paymybuddy.model.Connection;
 import com.paymybuddy.model.User;
 import com.paymybuddy.repository.ConnectionRepository;
@@ -21,17 +23,24 @@ public class ConnectionServiceImpl implements ConnectionService{
 	public User checkingIfUserExist(String userName) {
 		User recieverDetails = null;
 		try {
-		recieverDetails = userRepository.findByEmail(userName);
+			recieverDetails = userRepository.findByEmail(userName);
 		}
 		catch(UsernameNotFoundException ex) {
 			logger.error(" user not found"+ex);
 		}
 		return recieverDetails;
 	}
+	@Transactional
 	@Override
 	public List<Connection> listOfConnectedEmail() {	
-		logger.info("connection list"+connectionRepository.findAll().toString());
 		return connectionRepository.findAll();
 	}
-	
+	@Transactional 
+	public Connection saveConnection(Connection connection) {
+		return connectionRepository.save(connection);
+	}
+	@Transactional
+	public Connection connectedUsersByUserId(int userId) {
+		return connectionRepository.getConnectionByUserID(userId);
+	}
 }

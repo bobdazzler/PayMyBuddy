@@ -44,7 +44,6 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		.antMatchers("/bootstrap.min.js").permitAll()
 		.antMatchers("/").permitAll()
 		.antMatchers("/login").permitAll()
-		.antMatchers("/signupSuccess").permitAll()
 		.antMatchers("/home").authenticated()
 		.antMatchers("/newAccountForm").authenticated()
 		.antMatchers("/contact").authenticated()
