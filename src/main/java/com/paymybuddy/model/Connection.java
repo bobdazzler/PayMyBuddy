@@ -25,14 +25,8 @@ public class Connection {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getConnectedUserId() {
-		return connectedUserId;
-	}
 	public void setConnectedUserId(int connectedUserId) {
 		this.connectedUserId = connectedUserId;
-	}
-	public String getRecieverEmail() {
-		return recieverEmail;
 	}
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;

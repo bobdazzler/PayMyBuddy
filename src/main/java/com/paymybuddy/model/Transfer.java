@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 @Entity
 @Table(name="transfer")
@@ -25,48 +26,44 @@ public class Transfer {
 	private int userId;
 	@Column(name ="reciever_id")
 	private int recieverId;
+	@Transient
 	private String description;
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
-	public BigDecimal getAmount() {
-		return amount;
-	}
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
-	}
-	public String getRecieverEmail() {
-		return recieverEmail;
 	}
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;
 	}
-	public BigDecimal getCharges() {
-		return charges;
-	}
-	public void setCharges(BigDecimal charges) {
-		this.charges = charges;
-	}
-	public int getUserId() {
-		return userId;
-	}
-	public void setUserId(int userId) {
-		this.userId = userId;
-	}
-	public int getRecieverId() {
-		return recieverId;
-	}
-	public void setRecieverId(int recieverId) {
-		this.recieverId = recieverId;
-	}
+	
 	public String getDescription() {
 		return description;
 	}
 	public void setDescription(String description) {
 		this.description = description;
+	}
+	public BigDecimal getCharges() {
+		return charges;
+	}
+	public int getUserId() {
+		return userId;
+	}
+	public int getRecieverId() {
+		return recieverId;
+	}
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public String getRecieverEmail() {
+		return recieverEmail;
+	}
+	public void setCharges(BigDecimal charges) {
+		this.charges = charges;
+	}
+	public void setUserId(int userId) {
+		this.userId = userId;
+	}
+	public void setRecieverId(int recieverId) {
+		this.recieverId = recieverId;
 	}
 	public Transfer(BigDecimal amount, String recieverEmail, BigDecimal charges, int userId, int recieverId) {
 		this.amount = amount;
@@ -77,5 +74,4 @@ public class Transfer {
 	}
 	public Transfer() {
 	}
-	
 }

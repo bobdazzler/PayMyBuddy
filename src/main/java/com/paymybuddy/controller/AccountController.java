@@ -34,7 +34,7 @@ public class AccountController {
 	}
 	@GetMapping("/account")
 	public ModelAndView viewAccountPageOfAUser( Model model, 
-			@ModelAttribute("account")Account account,HttpServletRequest request) {
+			@ModelAttribute("account") Account account,HttpServletRequest request) {
 
 		if (request.getSession().getAttribute("userId")!=null) {
 			Integer userId  =(int)request.getSession().getAttribute("userId");

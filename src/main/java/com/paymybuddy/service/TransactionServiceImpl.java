@@ -14,10 +14,7 @@ public class TransactionServiceImpl implements TransactionService {
 	public List<Transaction> findTransaction() {
 		return transactionRepository.findAll();
 	}
-	@Transactional
-	public Transaction findTransactionByUserId(int UserId) {
-		return transactionRepository.getTransactionByUserID(UserId);
-	}
+	
 	@Transactional
 	public Transaction saveUserTransaction(Transaction transaction) {
 		return transactionRepository.save(transaction);

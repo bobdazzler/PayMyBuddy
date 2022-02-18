@@ -89,7 +89,6 @@ public class TransferControllerTest {
 		BigDecimal userBalance = new BigDecimal(1000);
 		BigDecimal recieverUserBalance = new BigDecimal(0);
 		BigDecimal transferAmount = new BigDecimal(100);
-	//	BigDecimal expectedUserBalance = new BigDecimal(899.499999999999999989591659144139157433528453111648559570312500);
 		User loggedInUser = new User(1,"dazzler","dazzling@gmail.com","0903567877","89384jhd",userBalance);
 		User recieverDetails = new User(2,"oghoro","oghoro@gmail.com","0903567875","6ihdhs",recieverUserBalance);
 		when(userServiceImplMock.getUserById(Mockito.anyInt())).thenReturn(loggedInUser);
@@ -101,7 +100,6 @@ public class TransferControllerTest {
 		ModelAndView modelAndView = transferController.sendMoney(transferDtoMock, request, null, attribute);
 		assertEquals(modelAndView.getViewName(),"redirect:/transfer");
 		assertEquals(recieverDetails.getBalance(),transferAmount);
-	//	assertEquals(loggedInUser.getBalance(),expectedUserBalance);
 		
 	}
 	@Test

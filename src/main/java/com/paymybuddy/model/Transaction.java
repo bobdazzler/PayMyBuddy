@@ -33,14 +33,8 @@ public class Transaction {
 	public void setAmount(BigDecimal amount) {
 		this.amount = amount;
 	}
-	public String getRecieverEmail() {
-		return recieverEmail;
-	}
 	public void setRecieverEmail(String recieverEmail) {
 		this.recieverEmail = recieverEmail;
-	}
-	public BigDecimal getCharges() {
-		return charges;
 	}
 	public void setCharges(BigDecimal charges) {
 		this.charges = charges;
@@ -51,14 +45,8 @@ public class Transaction {
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
-	public int getRecieverId() {
-		return recieverId;
-	}
 	public void setRecieverId(int recieverId) {
 		this.recieverId = recieverId;
-	}
-	public String getDescription() {
-		return Description;
 	}
 	public void setDescription(String description) {
 		Description = description;
@@ -70,6 +58,15 @@ public class Transaction {
 		Description = description;
 	}
 	public Transaction() {
+	}
+	public Transaction(BigDecimal amount, String recieverEmail, BigDecimal charges, int userId, int recieverId,
+			String description) {
+		this.amount = amount;
+		this.recieverEmail = recieverEmail;
+		this.charges = charges;
+		this.userId = userId;
+		this.recieverId = recieverId;
+		Description = description;
 	}
 	
 }

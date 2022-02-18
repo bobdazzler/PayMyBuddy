@@ -29,17 +29,17 @@ public class Account {
 	@NonNull
 	@Column(name = "amount")
 	private BigDecimal amount;
-	public int getUserId() {
-		return userId;
-	}
 	public void setUserId(int userId) {
 		this.userId = userId;
 	}
 	public String getBankName() {
 		return bankName;
 	}
-	public void setBankName(String bankName) {
-		this.bankName = bankName;
+	public BigDecimal getAmount() {
+		return amount;
+	}
+	public void setAmount(BigDecimal amount) {
+		this.amount = amount;
 	}
 	public int getBankAccountNumber() {
 		return bankAccountNumber;
@@ -47,11 +47,11 @@ public class Account {
 	public void setBankAccountNumber(int bankAccountNumber) {
 		this.bankAccountNumber = bankAccountNumber;
 	}
-	public BigDecimal getAmount() {
-		return amount;
+	public int getUserId() {
+		return userId;
 	}
-	public void setAmount(BigDecimal amount) {
-		this.amount = amount;
+	public void setBankName(String bankName) {
+		this.bankName = bankName;
 	}
 	public Account(int id, int userId, String bankName, int bankAccountNumber, BigDecimal amount) {
 		this.id = id;

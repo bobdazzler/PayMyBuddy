@@ -21,14 +21,10 @@ public class ConnectionServiceImpl implements ConnectionService{
 	private ConnectionRepository connectionRepository;
 	@Override
 	public User checkingIfUserExist(String userName) {
-		User recieverDetails = null;
-		try {
-			recieverDetails = userRepository.findByEmail(userName);
-		}
-		catch(UsernameNotFoundException ex) {
-			logger.error(" user not found"+ex);
-		}
-		return recieverDetails;
+			if(userRepository.findByEmail(userName)==null) {
+				throw new UsernameNotFoundException("user not Found");
+			}
+			return userRepository.findByEmail(userName);
 	}
 	@Transactional
 	@Override
@@ -39,8 +35,8 @@ public class ConnectionServiceImpl implements ConnectionService{
 	public Connection saveConnection(Connection connection) {
 		return connectionRepository.save(connection);
 	}
-	@Transactional
-	public Connection connectedUsersByUserId(int userId) {
-		return connectionRepository.getConnectionByUserID(userId);
-	}
+//	@Transactional
+//	public Connection connectedUsersByUserId(int userId) {
+//		return connectionRepository.getConnectionByUserID(userId);
+//	}
 }
